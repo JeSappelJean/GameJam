@@ -1,7 +1,4 @@
 
-#Importation des bibliothèques nécessaires
-import pygame
-from pygame.locals import *
 
 #Initialisation de la bibliothèque Pygame
 import pygame
@@ -40,7 +37,7 @@ while continuer:
                 position_perso = position_perso.move(0,-5)
             elif event.key == K_LEFT:
                 position_perso = position_perso.move(-5,0)
-            elif event
+
     fenetre.blit(fond,(0,0))
     fenetre.blit(perso, position_perso)
     pygame.display.flip()
