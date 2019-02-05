@@ -3,6 +3,7 @@ TITLE = "Game"
 WIDTH = 1024
 HEIGHT = 768
 FPS = 60
+SPRITESHEET = "spritesheet_player.png" 
 
 #CONST Joueur
 PLAYER_ACC = 1

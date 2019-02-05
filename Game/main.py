@@ -15,14 +15,21 @@ class Game:
         self.clock = pg.time.Clock()
         self.running = True
         self.time_elapsed = 0
+        self.load_data()
+
+    def load_data(self):
+        self.dir = path.dirname(__file__)
+        img_dir = path.join(self.dir, 'img')
+        self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET))
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.player = Player(self)
-        Platform(self, 0, HEIGHT - 40, WIDTH, 50)
-        Platform(self, 500, 400, 100, 400)
-        Platform(self, 100, 400, 100, 400)
+        Platform(self, 0, HEIGHT - 40, WIDTH/3, 400)
+        Platform(self, WIDTH/2, HEIGHT - 40, WIDTH/2, 400)
+        Platform(self, WIDTH-100, 100, 100, 800)
+        Platform(self, WIDTH-350, 200, 100, 400)
         self.run()
 
     def run(self):
@@ -31,7 +38,7 @@ class Game:
         while self.playing:
             time =self.clock.tick(FPS)
             self.time_elapsed += 1
-            self.player.get_platform()
+            print(abs(self.player.vel.x))
             self.events()
             self.update()
             self.draw()
@@ -42,7 +49,6 @@ class Game:
         if self.player.vel.y != 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
             if hits:
-
                 if self.player.vel.y > 0 and (hits[0].rect.collidepoint(self.player.rect.midbottom)):
                     self.player.pos.y = hits[0].rect.top +1
                     self.player.vel.y = 0
@@ -66,13 +72,15 @@ class Game:
                     self.player.vel.x = 0
                     self.player.acc.x = 0
                     self.player.pos.x = hits[ind].rect.left - self.player.image.get_width()/2
+                    self.player.slidingL = True
                     keys = pg.key.get_pressed()
                     if keys[pg.K_SPACE]:
-                            self.player.jump_reverse(True)
+                        self.player.jump_reverse(True)
                 if self.player.vel.x < 0 and (hits[ind].rect.collidepoint(self.player.rect.midleft)):
                     self.player.vel.x = 0
                     self.player.acc.x = 0
                     self.player.pos.x = hits[ind].rect.right + self.player.image.get_width()/2
+                    self.player.slidingR = True
                     keys = pg.key.get_pressed()
                     if keys[pg.K_SPACE]:
                             self.player.jump_reverse(False)
@@ -90,7 +98,7 @@ class Game:
 
 
     def draw(self):
-        self.screen.fill(BLACK)
+        self.screen.fill(WHITE)
         self.all_sprites.draw(self.screen)
         self.screen.blit(self.player.image, self.player.rect)
         pg.display.flip()
