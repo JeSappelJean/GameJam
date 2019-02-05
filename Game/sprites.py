@@ -22,8 +22,8 @@ class Player(pg.sprite.Sprite):
         self.image = self.game.spritesheet.get_image(9, 12, 15, 20)
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH/2, HEIGHT/2)
-        self.pos = vec(WIDTH/2, HEIGHT/2)
+        self.rect.center = (50, 50)
+        self.pos = vec(30 , HEIGHT -35)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.jumpCount = 0

@@ -3,7 +3,8 @@ TITLE = "Game"
 WIDTH = 1024
 HEIGHT = 768
 FPS = 60
-SPRITESHEET = "spritesheet_player.png" 
+SPRITESHEET = "spritesheet_player.png"
+FONT_NAME = 'arial'
 
 #CONST Joueur
 PLAYER_ACC = 1

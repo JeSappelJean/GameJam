@@ -15,6 +15,7 @@ class Game:
         self.clock = pg.time.Clock()
         self.running = True
         self.time_elapsed = 0
+        self.font_name = pg.font.match_font(FONT_NAME)
         self.load_data()
 
     def load_data(self):
@@ -38,7 +39,6 @@ class Game:
         while self.playing:
             time =self.clock.tick(FPS)
             self.time_elapsed += 1
-            print(abs(self.player.vel.x))
             self.events()
             self.update()
             self.draw()
@@ -85,6 +85,9 @@ class Game:
                     if keys[pg.K_SPACE]:
                             self.player.jump_reverse(False)
 
+        if self.player.rect.top > HEIGHT:
+            self.playing =False
+
 
     def events(self):
         for event in pg.event.get():
@@ -100,8 +103,16 @@ class Game:
     def draw(self):
         self.screen.fill(WHITE)
         self.all_sprites.draw(self.screen)
+        self.draw_text("Speed : "+str(abs(round(self.player.vel.x, 1))), 22, BLACK, 50, 50)
         self.screen.blit(self.player.image, self.player.rect)
         pg.display.flip()
+
+    def draw_text(self, text, size, color, x, y):
+        font = pg.font.Font(self.font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x, y)
+        self.screen.blit(text_surface, text_rect)
 
 g = Game()
 
