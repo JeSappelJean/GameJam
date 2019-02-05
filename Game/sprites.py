@@ -18,6 +18,7 @@ class Player(pg.sprite.Sprite):
         self.jumpCount = 0
         self.jumping = False
 
+
     def jump(self):
         #self.rect.x += 1
         hits = pg.sprite.spritecollide(self, self.game.platforms, False)
@@ -57,7 +58,12 @@ class Player(pg.sprite.Sprite):
                 self.acc.x -= PLAYER_ACC
         if keys[pg.K_RIGHT]:
             self.acc.x += PLAYER_ACC
-        
+        if keys[pg.K_LEFT] and keys[pg.K_q] and self.game.time_elapsed > PLAYER_DASH_TIME:
+                self.acc.x -= PLAYER_ACC*10
+                self.game.time_elapsed = 0
+        if keys[pg.K_RIGHT] and keys[pg.K_q] and self.game.time_elapsed > PLAYER_DASH_TIME:
+            self.acc.x += PLAYER_ACC*10
+            self.game.time_elapsed = 0
 
 
         #appliquer la friction

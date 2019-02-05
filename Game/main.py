@@ -14,21 +14,23 @@ class Game:
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         self.running = True
+        self.time_elapsed = 0
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.player = Player(self)
         Platform(self, 0, HEIGHT - 40, WIDTH, 50)
-        Platform(self, 450, 100, 100, 400)
-        Platform(self, 200, 300, 100, 400)
+        Platform(self, 500, 400, 100, 400)
+        Platform(self, 100, 400, 100, 400)
         self.run()
 
     def run(self):
         #Boucle du jeu
         self.playing = True
         while self.playing:
-            self.clock.tick(FPS)
+            time =self.clock.tick(FPS)
+            self.time_elapsed += 1
             self.player.get_platform()
             self.events()
             self.update()
