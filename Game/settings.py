@@ -1,0 +1,18 @@
+#CONST Jeu
+TITLE = "Game"
+WIDTH = 1024
+HEIGHT = 768
+FPS = 60
+
+#CONST Joueur
+PLAYER_ACC = 1
+PLAYER_FRICTION = -0.12
+PLAYER_GRAV = 0.6
+PLAYER_JUMP = 10
+
+#Couleurs
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0 ,0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)

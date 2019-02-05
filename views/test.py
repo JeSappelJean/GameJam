@@ -10,7 +10,7 @@ pygame.init()
 fenetre = pygame.display.set_mode((640, 480))
 
 #Chargement et collage du fond
-fond = pygame.image.load("../img/map.jpg").convert()
+fond = pygame.image.load("../img/map.png").convert_alpha()
 fenetre.blit(fond, (0,0))
 
 #Chargement et collage du personnage
@@ -37,7 +37,6 @@ while continuer:
                 position_perso = position_perso.move(0,-5)
             elif event.key == K_LEFT:
                 position_perso = position_perso.move(-5,0)
-
-    fenetre.blit(fond,(0,0))
+    fenetre.blit(fond, (0,0))
     fenetre.blit(perso, position_perso)
     pygame.display.flip()
