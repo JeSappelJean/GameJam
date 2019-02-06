@@ -16,15 +16,15 @@ class Spritesheet:
         return image
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, game):
+    def __init__(self, game, x ,y):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = self.game.spritesheet_car.get_image(9, 12, 15, 20)
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.center = (100, 700)
-        self.pos = vec(100 ,  700)
+        self.rect.center = (x, y)
+        self.pos = vec(x ,  y)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.jumpCount = 0
@@ -222,7 +222,7 @@ class Platform(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.platforms
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        images = [self.game.spritesheet_plat.get_image(8,8,8,8),
+        images_l = [self.game.spritesheet_plat.get_image(8,8,8,8),
                   self.game.spritesheet_plat.get_image(0,8,8,8),
                   self.game.spritesheet_plat.get_image(0,16,8,8),
                   self.game.spritesheet_plat.get_image(0,24,8,8),
@@ -241,8 +241,11 @@ class Platform(pg.sprite.Sprite):
                   self.game.spritesheet_plat.get_image(24,24,8,8),
                   self.game.spritesheet_plat.get_image(32,24,8,8),
                   self.game.spritesheet_plat.get_image(40,8,8,8)]
+        images_r = []
+        for frame in images_l:
+            images_r.append(pg.transform.flip(frame, True, False))
+        images = images_l + images_r
         self.image = images[img]
-
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -252,26 +255,73 @@ class Background(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.background
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        images = [self.game.spritesheet_plat.get_image(0,48,8,8)]
+        images = [self.game.spritesheet_plat.get_image(0,0,8,8),
+                  self.game.spritesheet_plat.get_image(56,24,8,8),
+                  self.game.spritesheet_plat.get_image(8,40,8,8),
+                  self.game.spritesheet_plat.get_image(40,40,8,8),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(40,40,8,8), True, False),
+                  self.game.spritesheet_plat.get_image(48,32,8,8),
+                  self.game.spritesheet_plat.get_image(0,48,8,8),
+                  self.game.spritesheet_plat.get_image(40,48,8,8),
+                  self.game.spritesheet_plat.get_image(56,32,8,8),
+                  self.game.spritesheet_plat.get_image(8,48,8,8),
+                  self.game.spritesheet_plat.get_image(32,40,8,8),
+                  self.game.spritesheet_plat.get_image(40,80,8,8),
+                  self.game.spritesheet_plat.get_image(48,80,8,8),
+                  self.game.spritesheet_plat.get_image(56,80,8,8),
+                  self.game.spritesheet_plat.get_image(16,24,8,8),
+                  self.game.spritesheet_plat.get_image(56,0,8,8),
+                  self.game.spritesheet_plat.get_image(48,0,8,8),
+                  self.game.spritesheet_plat.get_image(40,0,8,8),
+                  self.game.spritesheet_plat.get_image(32,0,8,8),
+                  self.game.spritesheet_plat.get_image(24,0,8,8),
+                  self.game.spritesheet_plat.get_image(16,0,8,8),
+                  self.game.spritesheet_plat.get_image(8,0,8,8),
+                  self.game.spritesheet_plat.get_image(8,16,8,8),
+                  self.game.spritesheet_plat.get_image(32,56,8,8),
+                  self.game.spritesheet_plat.get_image(0,64,8,8),
+                  self.game.spritesheet_plat.get_image(8,64,8,8),
+                  self.game.spritesheet_plat.get_image(16,64,8,8),
+                  self.game.spritesheet_plat.get_image(24,72,8,8),
+                  self.game.spritesheet_plat.get_image(0,88,8,8),
+                  self.game.spritesheet_plat.get_image(24,64,8,8),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(24,64,8,8), True, False),
+                  self.game.spritesheet_plat.get_image(0,72,8,8),
+                  self.game.spritesheet_plat.get_image(8,72,8,8),
+                  self.game.spritesheet_plat.get_image(16,72,8,8),
+                  self.game.spritesheet_plat.get_image(32,72,8,8),
+                  self.game.spritesheet_plat.get_image(8,88,8,8),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(8,88,8,8), True, False),
+                  self.game.spritesheet_plat.get_image(16,88,8,8),
+                  self.game.spritesheet_plat.get_image(24,88,8,8),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(24,88,8,8), True, False),
+                  self.game.spritesheet_plat.get_image(32,88,8,8)]
+
         self.image = images[img]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
-
 class Niveau:
-	def __init__(self, filename):
-		self.fichier = filename
-		self.struct = 0
+    def __init__(self, filename):
+        self.fichier = filename
+        self.struct = 0
+        self.x_start = 0
+        self.y_start = 0
+        self.generate()
 
+    def generate(self):
+        with open(self.fichier, "r") as fichier:
+            structure_niveau = []
+            for ligne in fichier:
+                ligne_niveau = []
+                for sprite in ligne:
+                    if sprite != '\n':
+                        ligne_niveau.append(sprite)
+                structure_niveau.append(ligne_niveau)
+            self.struct = structure_niveau
 
-	def generate(self):
-		with open(self.fichier, "r") as fichier:
-			structure_niveau = []
-			for ligne in fichier:
-				ligne_niveau = []
-				for sprite in ligne:
-					if sprite != '\n':
-						ligne_niveau.append(sprite)
-				structure_niveau.append(ligne_niveau)
-			self.struct = structure_niveau
+            pos = ''.join(structure_niveau[-1]).split(',')
+            if len(pos) > 1:
+                self.x_start = int(pos[1])
+                self.y_start = int(pos[2])

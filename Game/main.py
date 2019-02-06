@@ -25,14 +25,14 @@ class Game:
         img_dir = path.join(self.dir, 'img')
         self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-        self.level1 = Niveau(path.join(img_dir,"test.txt"))
+        self.level1 = Niveau(path.join(img_dir,"JD6.txt"))
 
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.background = pg.sprite.Group()
-        self.player = Player(self)
+        self.player = Player(self, self.level1.x_start, self.level1.y_start)
         self.draw_level()
         self.run()
 
@@ -90,6 +90,15 @@ class Game:
 
         if self.player.vel.x != 0 :
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
+            if self.player.rect.left < 0 :
+                self.player.vel.x = 0
+                self.player.acc.x = 0
+                self.player.pos.x = self.player.image.get_width()/2
+            elif self.player.rect.right > WIDTH :
+                self.player.vel.x = 0
+                self.player.acc.x = 0
+                self.player.pos.x = WIDTH - self.player.image.get_width()/2
+
             if hits:
                 if hits[0].rect.collidepoint(self.player.rect.midbottom) and len(hits) != 1:
                     ind = 1
@@ -139,7 +148,6 @@ class Game:
 
 
     def draw(self):
-        self.screen.fill(BG)
         self.all_sprites.draw(self.screen)
         self.draw_text("Speed : "+str(abs(round(self.player.vel.x, 1))), 22, WHITE, 50, 50)
         self.screen.blit(self.player.image, self.player.rect)
@@ -153,49 +161,183 @@ class Game:
         self.screen.blit(text_surface, text_rect)
 
     def draw_level(self) :
-        self.level1.generate()
         num_ligne = 0
         for line in self.level1.struct:
             nume_case = 0
             for sprite in line :
                 x = nume_case * 8*SIZE_PLAT
                 y = num_ligne * 8*SIZE_PLAT
+                if sprite == '0':
+                    Background(self,x,y,0)
                 if sprite == '1':
                     Platform(self,x,y,0)
+                if sprite == '2':
+                    Platform(self,x,y,19)
                 if sprite == '3':
                     Platform(self,x,y,1)
+                if sprite == '4':
+                    Platform(self,x,y,20)
                 if sprite == '5':
                     Platform(self,x,y,2)
+                if sprite == '6':
+                    Platform(self,x,y,21)
                 if sprite == '7':
                     Platform(self,x,y,3)
+                if sprite == '8':
+                    Platform(self,x,y,22)
                 if sprite == '9':
                     Platform(self,x,y,4)
+                if sprite == 'a':
+                    Platform(self,x,y,23)
                 if sprite == 'b':
                     Platform(self,x,y,5)
+                if sprite == 'c':
+                    Platform(self,x,y,24)
                 if sprite == 'd':
                     Platform(self,x,y,6)
+                if sprite == 'e':
+                    Platform(self,x,y,25)
                 if sprite == 'f':
                     Platform(self,x,y,7)
+                if sprite == 'g':
+                    Platform(self,x,y,26)
                 if sprite == 'h':
                     Platform(self,x,y,8)
+                if sprite == 'i':
+                    Platform(self,x,y,27)
                 if sprite == 'j':
                     Platform(self,x,y,9)
-                if sprite == 'j':
-                    Platform(self,x,y,10)
+                if sprite == 'k':
+                    Platform(self,x,y,28)
                 if sprite == 'l':
-                    Platform(self,x,y,11)
+                    Platform(self,x,y,10)
+                if sprite == 'm':
+                    Platform(self,x,y,29)
                 if sprite == 'n':
-                    Platform(self,x,y,12)
+                    Platform(self,x,y,11)
+                if sprite == 'o':
+                    Platform(self,x,y,30)
                 if sprite == 'p':
-                    Platform(self,x,y,13)
+                    Platform(self,x,y,12)
+                if sprite == 'q':
+                    Platform(self,x,y,31)
                 if sprite == 'r':
-                    Platform(self,x,y,14)
+                    Platform(self,x,y,13)
+                if sprite == 's':
+                    Platform(self,x,y,32)
                 if sprite == 't':
-                    Platform(self,x,y,15)
+                    Platform(self,x,y,14)
+                if sprite == 'u':
+                    Platform(self,x,y,33)
                 if sprite == 'v':
                     Platform(self,x,y,15)
+                if sprite == 'w':
+                    Platform(self,x,y,34)
                 if sprite == 'x':
                     Platform(self,x,y,16)
+                if sprite == 'y':
+                    Platform(self,x,y,35)
+                if sprite == 'z':
+                    Platform(self,x,y,17)
+                if sprite == 'A':
+                    Platform(self,x,y,36)
+                if sprite == 'B':
+                    Platform(self,x,y,18)
+                if sprite == 'C':
+                    Platform(self,x,y,37)
+                if sprite == 'D':
+                    pass
+                if sprite == 'E':
+                    pass
+                if sprite == 'F':
+                    pass
+                if sprite == 'G':
+                    pass
+                if sprite == 'H':
+                    pass
+                if sprite == 'I':
+                    pass
+                if sprite == 'J':
+                    Background(self,x,y,1)
+                if sprite == 'K':
+                    Background(self,x,y,2)
+                if sprite == 'L':
+                    Background(self,x,y,3)
+                if sprite == 'M':
+                    Background(self,x,y,4)
+                if sprite == 'N':
+                    Background(self,x,y,5)
+                if sprite == 'O':
+                    Background(self,x,y,6)
+                if sprite == 'P':
+                    Background(self,x,y,7)
+                if sprite == 'Q':
+                    Background(self,x,y,8)
+                if sprite == 'R':
+                    Background(self,x,y,9)
+                if sprite == 'S':
+                    Background(self,x,y,10)
+                if sprite == 'T':
+                    Background(self,x,y,11)
+                if sprite == 'U':
+                    Background(self,x,y,12)
+                if sprite == 'V':
+                    Background(self,x,y,13)
+                if sprite == 'W':
+                    Background(self,x,y,14)
+                if sprite == 'X':
+                    Background(self,x,y,15)
+                if sprite == 'Y':
+                    Background(self,x,y,16)
+                if sprite == 'Z':
+                    Background(self,x,y,17)
+                if sprite == '!':
+                    Background(self,x,y,18)
+                if sprite == '"':
+                    Background(self,x,y,19)
+                if sprite == '#':
+                    Background(self,x,y,20)
+                if sprite == '$':
+                    Background(self,x,y,21)
+                if sprite == '%':
+                    Background(self,x,y,22)
+                if sprite == '+':
+                    Background(self,x,y,23)
+                if sprite == ',':
+                    Background(self,x,y,24)
+                if sprite == '-':
+                    Background(self,x,y,25)
+                if sprite == '.':
+                    Background(self,x,y,26)
+                if sprite == '/':
+                    Background(self,x,y,27)
+                if sprite == ':':
+                    Background(self,x,y,28)
+                if sprite == ';':
+                    Background(self,x,y,29)
+                if sprite == '(':
+                    Background(self,x,y,30)
+                if sprite == '<':
+                    Background(self,x,y,31)
+                if sprite == '=':
+                    Background(self,x,y,32)
+                if sprite == '>':
+                    Background(self,x,y,33)
+                if sprite == '?':
+                    Background(self,x,y,34)
+                if sprite == '@':
+                    Background(self,x,y,35)
+                if sprite == '&':
+                    Background(self,x,y,36)
+                if sprite == '`':
+                    Background(self,x,y,37)
+                if sprite == '{':
+                    Background(self,x,y,38)
+                if sprite == ')':
+                    Background(self,x,y,39)
+                if sprite == '|':
+                    Background(self,x,y,40)
+
                 nume_case += 1
             num_ligne += 1
 
