@@ -3,6 +3,7 @@ import random
 from settings import *
 from sprites import *
 from os import path
+import string
 
 
 class Game:
@@ -24,15 +25,17 @@ class Game:
         img_dir = path.join(self.dir, 'img')
         self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-        self.level1 = Niveau(path.join(img_dir,"level1.txt"))
+        self.level1 = Niveau(path.join(img_dir,"test.txt"))
 
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
+        self.background = pg.sprite.Group()
         self.player = Player(self)
         self.draw_level()
         self.run()
+        print(len(string.printable))
 
     def run(self):
         #Boucle du jeu
@@ -158,38 +161,42 @@ class Game:
             for sprite in line :
                 x = nume_case * 8*SIZE_PLAT
                 y = num_ligne * 8*SIZE_PLAT
-                if sprite == 'm':
+                if sprite == '1':
                     Platform(self,x,y,0)
-                if sprite == '!':
+                if sprite == '3':
                     Platform(self,x,y,1)
-                if sprite == '"':
+                if sprite == '5':
                     Platform(self,x,y,2)
-                if sprite == '#':
+                if sprite == '7':
                     Platform(self,x,y,3)
-                if sprite == '$':
+                if sprite == '9':
                     Platform(self,x,y,4)
-                if sprite == '%':
+                if sprite == 'b':
                     Platform(self,x,y,5)
-                if sprite == '&':
+                if sprite == 'd':
                     Platform(self,x,y,6)
-                if sprite == '\'':
+                if sprite == 'f':
                     Platform(self,x,y,7)
-                if sprite == '(':
+                if sprite == 'h':
                     Platform(self,x,y,8)
-                if sprite == ')':
+                if sprite == 'j':
                     Platform(self,x,y,9)
-                if sprite == '*':
+                if sprite == 'j':
                     Platform(self,x,y,10)
-                if sprite == '+':
+                if sprite == 'l':
                     Platform(self,x,y,11)
-                if sprite == ',':
+                if sprite == 'n':
                     Platform(self,x,y,12)
-                if sprite == '-':
+                if sprite == 'p':
                     Platform(self,x,y,13)
-                if sprite == '.':
+                if sprite == 'r':
                     Platform(self,x,y,14)
-                if sprite == '/':
+                if sprite == 't':
                     Platform(self,x,y,15)
+                if sprite == 'v':
+                    Platform(self,x,y,15)
+                if sprite == 'x':
+                    Platform(self,x,y,16)
                 nume_case += 1
             num_ligne += 1
 
