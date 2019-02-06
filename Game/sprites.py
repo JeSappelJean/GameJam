@@ -302,6 +302,23 @@ class Background(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+class Lave(pg.sprite.Sprite):
+    def __init__(self, game, x , y, img):
+        self.groups = game.all_sprites, game.lave
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        images = [self.game.spritesheet_plat.get_image(0,80,8,8),
+                 self.game.spritesheet_plat.get_image(8,80,8,8),
+                 self.game.spritesheet_plat.get_image(16,80,8,8),
+                 self.game.spritesheet_plat.get_image(24,80,8,8),
+                 self.game.spritesheet_plat.get_image(32,80,8,8)]
+                 
+        self.image = images[img]
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
 class Niveau:
     def __init__(self, filename):
         self.fichier = filename

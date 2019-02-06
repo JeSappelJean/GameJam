@@ -32,8 +32,10 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.background = pg.sprite.Group()
+        self.lave = pg.sprite.Group()
         self.player = Player(self, self.level1.x_start, self.level1.y_start)
         self.draw_level()
+        print(string.printable)
         self.run()
 
     def run(self):
@@ -53,6 +55,11 @@ class Game:
         nbCollideTop = 0
         nbCollideLeft = 0
         nbCollideRight = 0
+
+        #Dead
+        dead = pg.sprite.spritecollide(self.player, self.lave, False)
+        if dead:
+            self.playing = False
 
         if self.player.vel.y != 0:
 
@@ -337,6 +344,16 @@ class Game:
                     Background(self,x,y,39)
                 if sprite == '|':
                     Background(self,x,y,40)
+                if sprite == '[[]':
+                    Lave(self,x,y,0)
+                if sprite == '\\':
+                    Lave(self,x,y,1)
+                if sprite == ']':
+                    Lave(self,x,y,2)
+                if sprite == '^':
+                    Lave(self,x,y,3)
+                if sprite == '_':
+                    Lave(self,x,y,4)
 
                 nume_case += 1
             num_ligne += 1
