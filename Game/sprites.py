@@ -24,7 +24,7 @@ class Player(pg.sprite.Sprite):
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.center = (100, 700)
-        self.pos = vec(100 ,  700)
+        self.pos = vec(50 ,  700)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.jumpCount = 0
@@ -255,7 +255,30 @@ class Background(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.background
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        images = [self.game.spritesheet_plat.get_image(0,0,8,8)]
+        images = [self.game.spritesheet_plat.get_image(0,0,8,8),
+                  self.game.spritesheet_plat.get_image(56,24,8,8),
+                  self.game.spritesheet_plat.get_image(8,40,8,8),
+                  self.game.spritesheet_plat.get_image(40,40,8,8),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(40,40,8,8), True, False),
+                  self.game.spritesheet_plat.get_image(48,32,8,8),
+                  self.game.spritesheet_plat.get_image(0,48,8,8),
+                  self.game.spritesheet_plat.get_image(40,48,8,8),
+                  self.game.spritesheet_plat.get_image(56,32,8,8),
+                  self.game.spritesheet_plat.get_image(8,48,8,8),
+                  self.game.spritesheet_plat.get_image(32,40,8,8),
+                  self.game.spritesheet_plat.get_image(40,80,8,8),
+                  self.game.spritesheet_plat.get_image(48,80,8,8),
+                  self.game.spritesheet_plat.get_image(56,80,8,8),
+                  self.game.spritesheet_plat.get_image(16,24,8,8),
+                  self.game.spritesheet_plat.get_image(56,0,8,8),
+                  self.game.spritesheet_plat.get_image(48,0,8,8),
+                  self.game.spritesheet_plat.get_image(40,0,8,8),
+                  self.game.spritesheet_plat.get_image(32,0,8,8),
+                  self.game.spritesheet_plat.get_image(24,0,8,8),
+                  self.game.spritesheet_plat.get_image(16,0,8,8),
+                  self.game.spritesheet_plat.get_image(8,0,8,8),
+                  self.game.spritesheet_plat.get_image(8,16,8,8)]
+
         self.image = images[img]
         self.rect = self.image.get_rect()
         self.rect.x = x
