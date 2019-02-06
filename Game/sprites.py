@@ -16,15 +16,15 @@ class Spritesheet:
         return image
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, game):
+    def __init__(self, game, x ,y):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = self.game.spritesheet_car.get_image(9, 12, 15, 20)
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.center = (100, 700)
-        self.pos = vec(50 ,  700)
+        self.rect.center = (x, y)
+        self.pos = vec(x ,  y)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.jumpCount = 0
@@ -284,20 +284,26 @@ class Background(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-
 class Niveau:
-	def __init__(self, filename):
-		self.fichier = filename
-		self.struct = 0
+    def __init__(self, filename):
+        self.fichier = filename
+        self.struct = 0
+        self.x_start = 0
+        self.y_start = 0
+        self.generate()
 
+    def generate(self):
+        with open(self.fichier, "r") as fichier:
+            structure_niveau = []
+            for ligne in fichier:
+                ligne_niveau = []
+                for sprite in ligne:
+                    if sprite != '\n':
+                        ligne_niveau.append(sprite)
+                structure_niveau.append(ligne_niveau)
+            self.struct = structure_niveau
 
-	def generate(self):
-		with open(self.fichier, "r") as fichier:
-			structure_niveau = []
-			for ligne in fichier:
-				ligne_niveau = []
-				for sprite in ligne:
-					if sprite != '\n':
-						ligne_niveau.append(sprite)
-				structure_niveau.append(ligne_niveau)
-			self.struct = structure_niveau
+            pos = ''.join(structure_niveau[-1]).split(',')
+            if len(pos) > 1:
+                self.x_start = int(pos[1])
+                self.y_start = int(pos[2])

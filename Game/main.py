@@ -25,14 +25,18 @@ class Game:
         img_dir = path.join(self.dir, 'img')
         self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
+<<<<<<< HEAD
         self.level1 = Niveau(path.join(img_dir,"test.txt"))
+=======
+        self.level1 = Niveau(path.join(img_dir,"level10.txt"))
+>>>>>>> ef1a9f80d7d11840e1f6dd1f5c3d564e58ec450b
 
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.background = pg.sprite.Group()
-        self.player = Player(self)
+        self.player = Player(self, self.level1.x_start, self.level1.y_start)
         self.draw_level()
         self.run()
 
@@ -161,7 +165,6 @@ class Game:
         self.screen.blit(text_surface, text_rect)
 
     def draw_level(self) :
-        self.level1.generate()
         num_ligne = 0
         for line in self.level1.struct:
             nume_case = 0

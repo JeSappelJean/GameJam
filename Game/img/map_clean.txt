@@ -22,3 +22,10 @@
 00000000000000000000000000000000
 00000000000000000000000000000000
 00000000000000000000000000000000
+
+self.player.rect.center = (self.level1.x_start, self.level1.y_start)
+    self.player.pos = vec(self.level1.x_start, self.level1.y_start)
+
+    pos = ''.join(file_struct[-1]).split(',')
+          self.x_start = int(pos[1])
+          self.y_start = int(pos[2])
