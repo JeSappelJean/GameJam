@@ -25,11 +25,7 @@ class Game:
         img_dir = path.join(self.dir, 'img')
         self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-<<<<<<< HEAD
         self.level1 = Niveau(path.join(img_dir,"level11.txt"))
-=======
-        self.level1 = Niveau(path.join(img_dir,"JD5.txt"))
->>>>>>> 0f1a33a6d40257281bc65d793b2a50e8c7bc8135
 
 
     def new(self):
