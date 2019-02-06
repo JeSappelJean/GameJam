@@ -127,6 +127,7 @@ class Player(pg.sprite.Sprite):
         self.vel += self.acc
         if abs(self.vel.x) < 0.1:
             self.vel.x = 0
+        
         self.pos += self.vel  + 0.5 * self.acc
 
         self.rect.midbottom = self.pos
@@ -137,10 +138,12 @@ class Player(pg.sprite.Sprite):
 
         if self.vel.x !=0 :
             self.walking = True
-            self.slidingR = False
-            self.slidingL = False
         else:
             self.walking = False
+
+        if self.vel.x !=0 or self.vel.y ==0:
+            self.slidingR = False
+            self.slidingL = False
 
         if abs(self.vel.x) < 10:
             self.dashing = False
