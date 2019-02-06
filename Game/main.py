@@ -246,6 +246,64 @@ class Game:
                     Platform(self,x,y,18)
                 if sprite == 'C':
                     Platform(self,x,y,37)
+                if sprite == 'D':
+                    pass
+                if sprite == 'E':
+                    pass
+                if sprite == 'F':
+                    pass
+                if sprite == 'G':
+                    pass
+                if sprite == 'H':
+                    pass
+                if sprite == 'I':
+                    pass
+                if sprite == 'J':
+                    Background(self,x,y,1)
+                if sprite == 'K':
+                    Background(self,x,y,2)
+                if sprite == 'L':
+                    Background(self,x,y,3)
+                if sprite == 'M':
+                    Background(self,x,y,4)
+                if sprite == 'N':
+                    Background(self,x,y,5)
+                if sprite == 'O':
+                    Background(self,x,y,6)
+                if sprite == 'P':
+                    Background(self,x,y,7)
+                if sprite == 'Q':
+                    Background(self,x,y,8)
+                if sprite == 'R':
+                    Background(self,x,y,9)
+                if sprite == 'S':
+                    Background(self,x,y,10)
+                if sprite == 'T':
+                    Background(self,x,y,11)
+                if sprite == 'U':
+                    Background(self,x,y,12)
+                if sprite == 'V':
+                    Background(self,x,y,13)
+                if sprite == 'W':
+                    Background(self,x,y,14)
+                if sprite == 'X':
+                    Background(self,x,y,15)
+                if sprite == 'Y':
+                    Background(self,x,y,16)
+                if sprite == 'Z':
+                    Background(self,x,y,17)
+                if sprite == '!':
+                    Background(self,x,y,18)
+                if sprite == '"':
+                    Background(self,x,y,19)
+                if sprite == '#':
+                    Background(self,x,y,20)
+                if sprite == '$':
+                    Background(self,x,y,21)
+                if sprite == '%':
+                    Background(self,x,y,22)
+
+
 
                 nume_case += 1
             num_ligne += 1
