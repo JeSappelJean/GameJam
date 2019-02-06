@@ -5,13 +5,14 @@ vec = pg.math.Vector2
 
 class Spritesheet:
     #charger et coisir le bon sprites "parsing"
-    def __init__(self, filename):
-        self.spritesheet = pg.image.load(filename).convert_alpha()
+    def __init__(self, filename,size):
+        self.spritesheet_car = pg.image.load(filename).convert_alpha()
+        self.size = size
 
     def get_image(self, x, y, w, h):
         image = pg.Surface((w, h))
-        image.blit(self.spritesheet, (0, 0), (x, y, w, h))
-        image = pg.transform.scale(image, (w*3, h*3))
+        image.blit(self.spritesheet_car, (0, 0), (x, y, w, h))
+        image = pg.transform.scale(image, (w*self.size, h*self.size))
         return image
 
 class Player(pg.sprite.Sprite):
@@ -19,11 +20,11 @@ class Player(pg.sprite.Sprite):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = self.game.spritesheet.get_image(9, 12, 15, 20)
+        self.image = self.game.spritesheet_car.get_image(9, 12, 15, 20)
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.center = (50, 50)
-        self.pos = vec(30 , HEIGHT -35)
+        self.rect.center = (100, 700)
+        self.pos = vec(100 ,  700)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.jumpCount = 0
@@ -37,39 +38,39 @@ class Player(pg.sprite.Sprite):
         self.load_images()
 
     def load_images(self):
-        self.standing_frames = [self.game.spritesheet.get_image(200, 108, 17, 20),
-                                self.game.spritesheet.get_image(234, 108, 17, 20)]
+        self.standing_frames = [self.game.spritesheet_car.get_image(200, 108, 17, 20),
+                                self.game.spritesheet_car.get_image(234, 108, 17, 20)]
         for frame in self.standing_frames:
             frame.set_colorkey(BLACK)
-        self.walk_frames_r = [self.game.spritesheet.get_image(9, 12, 15, 20),
-                              self.game.spritesheet.get_image(41, 11, 15, 20),
-                              self.game.spritesheet.get_image(72, 12, 16, 20),
-                              self.game.spritesheet.get_image(104, 11, 17, 20)]
+        self.walk_frames_r = [self.game.spritesheet_car.get_image(9, 12, 15, 20),
+                              self.game.spritesheet_car.get_image(41, 11, 15, 20),
+                              self.game.spritesheet_car.get_image(72, 12, 16, 20),
+                              self.game.spritesheet_car.get_image(104, 11, 17, 20)]
 
         self.walk_frames_l = []
         for frame in self.walk_frames_r:
             frame.set_colorkey(BLACK)
             self.walk_frames_l.append(pg.transform.flip(frame, True, False))
 
-        self.jump_frame_r_up =[self.game.spritesheet.get_image(168, 11, 16, 20)]
+        self.jump_frame_r_up =[self.game.spritesheet_car.get_image(168, 11, 16, 20)]
         self.jump_frame_l_up = []
         for frame in self.jump_frame_r_up:
             frame.set_colorkey(BLACK)
             self.jump_frame_l_up.append(pg.transform.flip(frame, True, False))
 
-        self.jump_frame_r_down = [self.game.spritesheet.get_image(201, 11, 15, 20)]
+        self.jump_frame_r_down = [self.game.spritesheet_car.get_image(201, 11, 15, 20)]
         self.jump_frame_l_down = []
         for frame in self.jump_frame_r_down:
             frame.set_colorkey(BLACK)
             self.jump_frame_l_down.append(pg.transform.flip(frame, True, False))
 
-        self.dash_frames_r = [self.game.spritesheet.get_image(136, 109, 17, 19)]
+        self.dash_frames_r = [self.game.spritesheet_car.get_image(136, 109, 17, 19)]
         self.dash_frames_l = []
         for frame in self.dash_frames_r:
             frame.set_colorkey(BLACK)
             self.dash_frames_l.append(pg.transform.flip(frame, True, False))
 
-        self.wall_slide_r = [self.game.spritesheet.get_image(490, 108, 16, 20)]
+        self.wall_slide_r = [self.game.spritesheet_car.get_image(490, 108, 16, 20)]
         self.wall_slide_l = []
         for frame in self.wall_slide_r:
             frame.set_colorkey(BLACK)
@@ -213,18 +214,31 @@ class Player(pg.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.bottom = bottom
 
-
-
-
-
-
 class Platform(pg.sprite.Sprite):
-    def __init__(self, game, x , y, w, h):
+    def __init__(self, game, x , y):
         self.groups = game.all_sprites, game.platforms
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pg.Surface((w,h))
-        self.image.fill(BLUE)
+        images = [self.game.spritesheet_plat.get_image(24,0,8,8)
+                  ]
+        self.image = images[0]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+class Niveau:
+	def __init__(self, filename):
+		self.fichier = filename
+		self.struct = 0
+
+
+	def generate(self):
+		with open(self.fichier, "r") as fichier:
+			structure_niveau = []
+			for ligne in fichier:
+				ligne_niveau = []
+				for sprite in ligne:
+					if sprite != '\n':
+						ligne_niveau.append(sprite)
+				structure_niveau.append(ligne_niveau)
+			self.struct = structure_niveau

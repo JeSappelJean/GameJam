@@ -3,8 +3,11 @@ TITLE = "Game"
 WIDTH = 1024
 HEIGHT = 768
 FPS = 60
-SPRITESHEET = "spritesheet_player.png"
+SPRITESHEET_CAR = "spritesheet_player.png"
+SPRITESHEET_PLAT = "cavesofgallet_tiles.png"
 FONT_NAME = 'arial'
+SIZE_CAR = 3
+SIZE_PLAT = 4
 
 #CONST Joueur
 PLAYER_ACC = 1
