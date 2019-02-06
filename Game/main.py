@@ -35,7 +35,6 @@ class Game:
         self.player = Player(self)
         self.draw_level()
         self.run()
-        print(len(string.printable))
 
     def run(self):
         #Boucle du jeu
