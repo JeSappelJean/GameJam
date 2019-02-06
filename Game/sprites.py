@@ -277,12 +277,47 @@ class Background(pg.sprite.Sprite):
                   self.game.spritesheet_plat.get_image(24,0,8,8),
                   self.game.spritesheet_plat.get_image(16,0,8,8),
                   self.game.spritesheet_plat.get_image(8,0,8,8),
-                  self.game.spritesheet_plat.get_image(8,16,8,8)]
+                  self.game.spritesheet_plat.get_image(8,16,8,8),
+                  self.game.spritesheet_plat.get_image(32,56,8,8),
+                  self.game.spritesheet_plat.get_image(0,64,8,8),
+                  self.game.spritesheet_plat.get_image(8,64,8,8),
+                  self.game.spritesheet_plat.get_image(16,64,8,8),
+                  self.game.spritesheet_plat.get_image(24,72,8,8),
+                  self.game.spritesheet_plat.get_image(0,88,8,8),
+                  self.game.spritesheet_plat.get_image(24,64,8,8),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(24,64,8,8), True, False),
+                  self.game.spritesheet_plat.get_image(0,72,8,8),
+                  self.game.spritesheet_plat.get_image(8,72,8,8),
+                  self.game.spritesheet_plat.get_image(16,72,8,8),
+                  self.game.spritesheet_plat.get_image(32,72,8,8),
+                  self.game.spritesheet_plat.get_image(8,88,8,8),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(8,88,8,8), True, False),
+                  self.game.spritesheet_plat.get_image(16,88,8,8),
+                  self.game.spritesheet_plat.get_image(24,88,8,8),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(24,88,8,8), True, False),
+                  self.game.spritesheet_plat.get_image(32,88,8,8)]
 
         self.image = images[img]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+class Lave(pg.sprite.Sprite):
+    def __init__(self, game, x , y, img):
+        self.groups = game.all_sprites, game.lave
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        images = [self.game.spritesheet_plat.get_image(0,80,8,8),
+                 self.game.spritesheet_plat.get_image(8,80,8,8),
+                 self.game.spritesheet_plat.get_image(16,80,8,8),
+                 self.game.spritesheet_plat.get_image(24,80,8,8),
+                 self.game.spritesheet_plat.get_image(32,80,8,8)]
+                 
+        self.image = images[img]
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
 
 class Niveau:
     def __init__(self, filename):
