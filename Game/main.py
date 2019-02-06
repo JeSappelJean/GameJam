@@ -139,12 +139,12 @@ class Game:
     def draw(self):
         self.screen.fill(BG)
         self.all_sprites.draw(self.screen)
-        self.draw_text("Speed : "+str(abs(round(self.player.vel.x, 1))), 22, WHITE, 50, 50)
+        self.draw_text("Speed : "+str(abs(round(self.player.vel.x, 1))), 15, WHITE, 100, 50)
         self.screen.blit(self.player.image, self.player.rect)
         pg.display.flip()
 
     def draw_text(self, text, size, color, x, y):
-        font = pg.font.Font(self.font_name, size)
+        font = pg.font.Font("04B_30__.TTF", size)
         text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect()
         text_rect.midtop = (x, y)
