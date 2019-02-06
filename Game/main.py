@@ -32,7 +32,7 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.background = pg.sprite.Group()
-        self.player = Player(self)
+        self.player = Player(self, self.level1.x_start, self.level1.y_start)
         self.draw_level()
         self.run()
 
@@ -161,7 +161,6 @@ class Game:
         self.screen.blit(text_surface, text_rect)
 
     def draw_level(self) :
-        self.level1.generate()
         num_ligne = 0
         for line in self.level1.struct:
             nume_case = 0
