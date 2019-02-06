@@ -23,9 +23,10 @@ class Game:
     def load_data(self):
         self.dir = path.dirname(__file__)
         img_dir = path.join(self.dir, 'img')
+        map_dir = path.join(img_dir, 'map')
         self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-        self.level1 = Niveau(path.join(img_dir,"JD6.txt"))
+        self.level1 = Niveau(path.join(map_dir,"JD6.txt"))
 
 
     def new(self):
