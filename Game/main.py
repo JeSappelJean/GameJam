@@ -25,7 +25,7 @@ class Game:
         img_dir = path.join(self.dir, 'img')
         self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-        self.level1 = Niveau(path.join(img_dir,"level11.txt"))
+        self.level1 = Niveau(path.join(img_dir,"JD6.txt"))
 
 
     def new(self):
@@ -301,8 +301,42 @@ class Game:
                     Background(self,x,y,21)
                 if sprite == '%':
                     Background(self,x,y,22)
-
-
+                if sprite == '+':
+                    Background(self,x,y,23)
+                if sprite == ',':
+                    Background(self,x,y,24)
+                if sprite == '-':
+                    Background(self,x,y,25)
+                if sprite == '.':
+                    Background(self,x,y,26)
+                if sprite == '/':
+                    Background(self,x,y,27)
+                if sprite == ':':
+                    Background(self,x,y,28)
+                if sprite == ';':
+                    Background(self,x,y,29)
+                if sprite == '(':
+                    Background(self,x,y,30)
+                if sprite == '<':
+                    Background(self,x,y,31)
+                if sprite == '=':
+                    Background(self,x,y,32)
+                if sprite == '>':
+                    Background(self,x,y,33)
+                if sprite == '?':
+                    Background(self,x,y,34)
+                if sprite == '@':
+                    Background(self,x,y,35)
+                if sprite == '&':
+                    Background(self,x,y,36)
+                if sprite == '`':
+                    Background(self,x,y,37)
+                if sprite == '{':
+                    Background(self,x,y,38)
+                if sprite == ')':
+                    Background(self,x,y,39)
+                if sprite == '|':
+                    Background(self,x,y,40)
 
                 nume_case += 1
             num_ligne += 1
