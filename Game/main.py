@@ -25,12 +25,7 @@ class Game:
         img_dir = path.join(self.dir, 'img')
         self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-<<<<<<< HEAD
         self.level1 = Niveau(path.join(img_dir,"level13.txt"))
-=======
-        self.level1 = Niveau(path.join(img_dir,"JD6.txt"))
->>>>>>> 11cba472dfa0e4a50992a90f766eb581c5de6086
-
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
