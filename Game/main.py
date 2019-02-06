@@ -90,6 +90,15 @@ class Game:
 
         if self.player.vel.x != 0 :
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
+            if self.player.rect.left < 0 :
+                self.player.vel.x = 0
+                self.player.acc.x = 0
+                self.player.pos.x = self.player.image.get_width()/2
+            elif self.player.rect.right > WIDTH :
+                self.player.vel.x = 0
+                self.player.acc.x = 0
+                self.player.pos.x = WIDTH - self.player.image.get_width()/2
+
             if hits:
                 if hits[0].rect.collidepoint(self.player.rect.midbottom) and len(hits) != 1:
                     ind = 1
