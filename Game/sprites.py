@@ -23,8 +23,8 @@ class Player(pg.sprite.Sprite):
         self.image = self.game.spritesheet_car.get_image(9, 12, 15, 20)
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.center = (50, 700)
-        self.pos = vec(50 ,  700)
+        self.rect.center = (50, 75)
+        self.pos = vec(50 ,  75)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.jumpCount = 0
