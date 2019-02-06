@@ -29,6 +29,7 @@ class Game:
         self.level1 = Niveau(path.join(map_dir,"JD6.txt"))
 
 
+
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
