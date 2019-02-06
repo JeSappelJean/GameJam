@@ -137,7 +137,7 @@ class Game:
 
 
     def draw(self):
-        self.screen.fill(BLACK)
+        self.screen.fill(BG)
         self.all_sprites.draw(self.screen)
         self.draw_text("Speed : "+str(abs(round(self.player.vel.x, 1))), 22, WHITE, 50, 50)
         self.screen.blit(self.player.image, self.player.rect)
@@ -159,7 +159,37 @@ class Game:
                 x = nume_case * 8*SIZE_PLAT
                 y = num_ligne * 8*SIZE_PLAT
                 if sprite == 'm':
-                    Platform(self,x,y)
+                    Platform(self,x,y,0)
+                if sprite == '!':
+                    Platform(self,x,y,1)
+                if sprite == '"':
+                    Platform(self,x,y,2)
+                if sprite == '#':
+                    Platform(self,x,y,3)
+                if sprite == '$':
+                    Platform(self,x,y,4)
+                if sprite == '%':
+                    Platform(self,x,y,5)
+                if sprite == '&':
+                    Platform(self,x,y,6)
+                if sprite == '\'':
+                    Platform(self,x,y,7)
+                if sprite == '(':
+                    Platform(self,x,y,8)
+                if sprite == ')':
+                    Platform(self,x,y,9)
+                if sprite == '*':
+                    Platform(self,x,y,10)
+                if sprite == '+':
+                    Platform(self,x,y,11)
+                if sprite == ',':
+                    Platform(self,x,y,12)
+                if sprite == '-':
+                    Platform(self,x,y,13)
+                if sprite == '.':
+                    Platform(self,x,y,14)
+                if sprite == '/':
+                    Platform(self,x,y,15)
                 nume_case += 1
             num_ligne += 1
 

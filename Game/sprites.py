@@ -127,7 +127,7 @@ class Player(pg.sprite.Sprite):
         self.vel += self.acc
         if abs(self.vel.x) < 0.1:
             self.vel.x = 0
-        
+
         self.pos += self.vel  + 0.5 * self.acc
 
         self.rect.midbottom = self.pos
@@ -218,13 +218,27 @@ class Player(pg.sprite.Sprite):
                 self.rect.bottom = bottom
 
 class Platform(pg.sprite.Sprite):
-    def __init__(self, game, x , y):
+    def __init__(self, game, x , y, img):
         self.groups = game.all_sprites, game.platforms
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        images = [self.game.spritesheet_plat.get_image(24,0,8,8)
-                  ]
-        self.image = images[0]
+        images = [self.game.spritesheet_plat.get_image(24,0,8,8),
+                  self.game.spritesheet_plat.get_image(8,8,8,8),
+                  self.game.spritesheet_plat.get_image(0,8,8,8),
+                  self.game.spritesheet_plat.get_image(0,16,8,8),
+                  self.game.spritesheet_plat.get_image(0,24,8,8),
+                  self.game.spritesheet_plat.get_image(8,24,8,8),
+                  self.game.spritesheet_plat.get_image(32,8,8,8),
+                  self.game.spritesheet_plat.get_image(24,8,8,8),
+                  self.game.spritesheet_plat.get_image(24,16,8,8),
+                  self.game.spritesheet_plat.get_image(24,24,8,8),
+                  self.game.spritesheet_plat.get_image(32,24,8,8),
+                  self.game.spritesheet_plat.get_image(32,32,8,8),
+                  self.game.spritesheet_plat.get_image(24,32,8,8),
+                  self.game.spritesheet_plat.get_image(24,40,8,8),
+                  self.game.spritesheet_plat.get_image(24,48,8,8),
+                  self.game.spritesheet_plat.get_image(32,48,8,8)]
+        self.image = images[img]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
