@@ -139,7 +139,6 @@ class Game:
 
 
     def draw(self):
-        self.screen.fill(BG)
         self.all_sprites.draw(self.screen)
         self.draw_text("Speed : "+str(abs(round(self.player.vel.x, 1))), 22, WHITE, 50, 50)
         self.screen.blit(self.player.image, self.player.rect)
@@ -160,42 +159,85 @@ class Game:
             for sprite in line :
                 x = nume_case * 8*SIZE_PLAT
                 y = num_ligne * 8*SIZE_PLAT
+                if sprite == '0':
+                    Background(self,x,y,0)
                 if sprite == '1':
                     Platform(self,x,y,0)
+                if sprite == '2':
+                    Platform(self,x,y,19)
                 if sprite == '3':
                     Platform(self,x,y,1)
+                if sprite == '4':
+                    Platform(self,x,y,20)
                 if sprite == '5':
                     Platform(self,x,y,2)
+                if sprite == '6':
+                    Platform(self,x,y,21)
                 if sprite == '7':
                     Platform(self,x,y,3)
+                if sprite == '8':
+                    Platform(self,x,y,22)
                 if sprite == '9':
                     Platform(self,x,y,4)
+                if sprite == 'a':
+                    Platform(self,x,y,23)
                 if sprite == 'b':
                     Platform(self,x,y,5)
+                if sprite == 'c':
+                    Platform(self,x,y,24)
                 if sprite == 'd':
                     Platform(self,x,y,6)
+                if sprite == 'e':
+                    Platform(self,x,y,25)
                 if sprite == 'f':
                     Platform(self,x,y,7)
+                if sprite == 'g':
+                    Platform(self,x,y,26)
                 if sprite == 'h':
                     Platform(self,x,y,8)
+                if sprite == 'i':
+                    Platform(self,x,y,27)
                 if sprite == 'j':
                     Platform(self,x,y,9)
-                if sprite == 'j':
-                    Platform(self,x,y,10)
+                if sprite == 'k':
+                    Platform(self,x,y,28)
                 if sprite == 'l':
-                    Platform(self,x,y,11)
+                    Platform(self,x,y,10)
+                if sprite == 'm':
+                    Platform(self,x,y,29)
                 if sprite == 'n':
-                    Platform(self,x,y,12)
+                    Platform(self,x,y,11)
+                if sprite == 'o':
+                    Platform(self,x,y,30)
                 if sprite == 'p':
-                    Platform(self,x,y,13)
+                    Platform(self,x,y,12)
+                if sprite == 'q':
+                    Platform(self,x,y,31)
                 if sprite == 'r':
-                    Platform(self,x,y,14)
+                    Platform(self,x,y,13)
+                if sprite == 's':
+                    Platform(self,x,y,32)
                 if sprite == 't':
-                    Platform(self,x,y,15)
+                    Platform(self,x,y,14)
+                if sprite == 'u':
+                    Platform(self,x,y,33)
                 if sprite == 'v':
                     Platform(self,x,y,15)
+                if sprite == 'w':
+                    Platform(self,x,y,34)
                 if sprite == 'x':
                     Platform(self,x,y,16)
+                if sprite == 'y':
+                    Platform(self,x,y,35)
+                if sprite == 'z':
+                    Platform(self,x,y,17)
+                if sprite == 'A':
+                    Platform(self,x,y,36)
+                if sprite == 'B':
+                    Platform(self,x,y,18)
+                if sprite == 'C':
+                    Platform(self,x,y,37)
+
                 nume_case += 1
             num_ligne += 1
 

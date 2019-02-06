@@ -222,7 +222,7 @@ class Platform(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.platforms
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        images = [self.game.spritesheet_plat.get_image(8,8,8,8),
+        images_l = [self.game.spritesheet_plat.get_image(8,8,8,8),
                   self.game.spritesheet_plat.get_image(0,8,8,8),
                   self.game.spritesheet_plat.get_image(0,16,8,8),
                   self.game.spritesheet_plat.get_image(0,24,8,8),
@@ -241,8 +241,11 @@ class Platform(pg.sprite.Sprite):
                   self.game.spritesheet_plat.get_image(24,24,8,8),
                   self.game.spritesheet_plat.get_image(32,24,8,8),
                   self.game.spritesheet_plat.get_image(40,8,8,8)]
+        images_r = []
+        for frame in images_l:
+            images_r.append(pg.transform.flip(frame, True, False))
+        images = images_l + images_r
         self.image = images[img]
-
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -252,7 +255,7 @@ class Background(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.background
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        images = [self.game.spritesheet_plat.get_image(0,48,8,8)]
+        images = [self.game.spritesheet_plat.get_image(0,0,8,8)]
         self.image = images[img]
         self.rect = self.image.get_rect()
         self.rect.x = x
