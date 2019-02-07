@@ -57,11 +57,11 @@ class Game:
     def run(self):
         #Boucle du jeu
         self.playing = True
-        print(self.start)
         self.load_map()
         self.draw_level()
         if self.start == True :
             self.start = False
+            pg.mixer.music.load(path.join(g.sound_dir, 'game_music.ogg'))
             pg.mixer.music.load(path.join(g.sound_dir, 'game_music.ogg'))
             pg.mixer.music.play(loops=-1)
 
@@ -85,6 +85,16 @@ class Game:
             self.player.gravity = False
 
     def update(self):
+        if self.time_elapsed/100 > 180:
+            if self.score > self.hightscore:
+                self.hightscore = self.score
+                with open(path.join(self.dir, HS_FILE), 'w') as f:
+                    f.write(str(self.score))
+            self.score = 0
+            self.time_elapsed = 0
+            self.level = 0
+            self.playing = False
+
         keys = pg.key.get_pressed()
         self.all_sprites.update()
         nbCollideBottom = 0
@@ -98,9 +108,17 @@ class Game:
 
         if end_level :
             self.level += 1
+            if self.level > len(LEVEL_LIST) -1 :
+                self.level = 0
             self.score += 1
             self.portal.play()
-            self.playing = False
+            for plat in self.all_sprites:
+                plat.kill()
+            self.load_map()
+            self.draw_level()
+            self.all_sprites.update()
+
+
         #Dead
         dead = pg.sprite.spritecollide(self.player, self.lave, False)
         if dead:
@@ -455,11 +473,16 @@ class Game:
         self.screen.blit(images_button[2],(351,396))
         self.screen.blit(images_button[3],(351,567))
 
-        print(images_button[0].get_rect())
         pg.display.flip()
         self.wait_for_click()
         pg.mixer.fadeout(500)
 
+    def draw_score_screen(self):
+        background = pg.image.load(path.join(self.img_dir, "ecrantitre.png"))
+        self.screen.blit(background,(0,0))
+        self.draw_text("okokeaeazeaz : "+str(abs(round(self.player.vel.x, 1))), 22, WHITE, 50, 50)
+        pg.display.flip()
+        self.wait_for_key()
 
     def wait_for_click(self):
         waiting = True
@@ -475,6 +498,17 @@ class Game:
                     if pos[0] > 127 and pos[1] > 180 and pos[0] < 427 and pos[1] < 312:
                         waiting = False
 
+    def wait_for_key(self):
+        waiting = True
+        while waiting:
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.running = False
+                if event.type == pg.KEYUP:
+                    waiting =False
+
 
 
 
@@ -484,4 +518,6 @@ g = Game()
 g.draw_start_screen()
 while g.running:
     g.new()
+    g.draw_score_screen()
+
 pg.quit()
