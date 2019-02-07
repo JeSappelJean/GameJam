@@ -361,12 +361,25 @@ class LevelEnd(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.level_end
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        images = [self.game.spritesheet_plat.get_image(32,64,8,8)]
+        self.images = [self.game.spritesheet_plat.get_image(40,88,8,8)]
 
-        self.image = images[0]
+        self.image = self.images[0]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.current_frame = 0
+        self.last_update = 0
+
+    def update(self):
+        self.void = [self.game.spritesheet_plat.get_image(40,88,8,8),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(40,88,8,8),True, True),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(40,88,8,8),False, True)]
+        now = pg.time.get_ticks()
+        if now - self.last_update > 200:
+            self.last_update = now
+            self.current_frame = (self.current_frame + 1) % len(self.void)
+            bottom = self.rect.bottom
+            self.image = self.void[self.current_frame]
 
 class Niveau:
     def __init__(self, filename):
