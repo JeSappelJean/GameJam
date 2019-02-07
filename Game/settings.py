@@ -27,4 +27,5 @@ BG = (33, 38, 63)
 
 #Level
 
-LEVEL_LIST = ["chateau1.txt", "chateau2.txt", "chateau3.txt", "chateau4.txt", "chateau5.txt"]
+LEVEL_LIST = ["level15.txt","level16.txt"]
+#LEVEL_LIST = ["level10.txt","level11.txt","level12.txt","level13.txt","level14.txt","level15.txt"]
