@@ -33,6 +33,7 @@ class Player(pg.sprite.Sprite):
         self.dashing = False
         self.slidingR = False
         self.slidingL = False
+        self.gravity = False
         self.current_frame = 0
         self.last_update = 0
         self.load_images()
@@ -103,34 +104,67 @@ class Player(pg.sprite.Sprite):
         self.rect.midbottom = self.pos
 
     def update(self):
-        self.animate()
-        self.acc = vec(0,PLAYER_GRAV)
-        keys = pg.key.get_pressed()
-        if keys[pg.K_LEFT]:
-                self.acc.x -= PLAYER_ACC
-        if keys[pg.K_RIGHT]:
-            self.acc.x += PLAYER_ACC
-        if keys[pg.K_LEFT] and keys[pg.K_q] and self.game.time_elapsed > PLAYER_DASH_TIME:
-            self.acc.x -= PLAYER_ACC*10
-            self.dashing = True
-            self.game.time_elapsed = 0
-        if keys[pg.K_RIGHT] and keys[pg.K_q] and self.game.time_elapsed > PLAYER_DASH_TIME:
-            self.acc.x += PLAYER_ACC*10
-            self.dashing = True
-            self.game.time_elapsed = 0
+        if self.gravity == True:
+            self.acc = vec(0,0)
+            keys = pg.key.get_pressed()
+            if keys[pg.K_LEFT]:
+                    self.acc.x -= PLAYER_ACC_GRAV
+            if keys[pg.K_RIGHT]:
+                self.acc.x += PLAYER_ACC_GRAV
+            if keys[pg.K_UP]:
+                    self.acc.y -= PLAYER_ACC_GRAV
+            if keys[pg.K_DOWN]:
+                self.acc.y += PLAYER_ACC_GRAV
+
+            self.vel += self.acc
+            if abs(self.vel.x) < 0.1:
+                self.vel.x = 0
+            if abs(self.vel.y) < 0.1:
+                self.vel.y = 0
+
+            if self.vel.x > 10:
+                self.vel.x = 10
+            elif self.vel.x < -10:
+                self.vel.x = -10
+
+            if self.vel.y > 10:
+                self.vel.y = 10
+            elif self.vel.y < -10:
+                self.vel.y = -10
+
+            self.pos += self.vel  + 0.5 * self.acc
+
+            self.rect.midbottom = self.pos
+
+        else :
+            self.animate()
+            self.acc = vec(0,PLAYER_GRAV)
+            keys = pg.key.get_pressed()
+            if keys[pg.K_LEFT]:
+                    self.acc.x -= PLAYER_ACC
+            if keys[pg.K_RIGHT]:
+                self.acc.x += PLAYER_ACC
+            if keys[pg.K_LEFT] and keys[pg.K_q] and self.game.time_elapsed > PLAYER_DASH_TIME:
+                self.acc.x -= PLAYER_ACC*10
+                self.dashing = True
+                self.game.time_elapsed = 0
+            if keys[pg.K_RIGHT] and keys[pg.K_q] and self.game.time_elapsed > PLAYER_DASH_TIME:
+                self.acc.x += PLAYER_ACC*10
+                self.dashing = True
+                self.game.time_elapsed = 0
 
 
-        #appliquer la friction
-        self.acc.x += self.vel.x * PLAYER_FRICTION
+            #appliquer la friction
+            self.acc.x += self.vel.x * PLAYER_FRICTION
 
-        #équation de mouvement
-        self.vel += self.acc
-        if abs(self.vel.x) < 0.1:
-            self.vel.x = 0
+            #équation de mouvement
+            self.vel += self.acc
+            if abs(self.vel.x) < 0.1:
+                self.vel.x = 0
 
-        self.pos += self.vel  + 0.5 * self.acc
+            self.pos += self.vel  + 0.5 * self.acc
 
-        self.rect.midbottom = self.pos
+            self.rect.midbottom = self.pos
 
 
     def animate(self):
@@ -295,7 +329,8 @@ class Background(pg.sprite.Sprite):
                   self.game.spritesheet_plat.get_image(16,88,8,8),
                   self.game.spritesheet_plat.get_image(24,88,8,8),
                   pg.transform.flip(self.game.spritesheet_plat.get_image(24,88,8,8), True, False),
-                  self.game.spritesheet_plat.get_image(32,88,8,8)]
+                  self.game.spritesheet_plat.get_image(32,88,8,8),
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(40,80,8,8), True, False)]
 
         self.image = images[img]
         self.rect = self.image.get_rect()
@@ -312,7 +347,7 @@ class Lave(pg.sprite.Sprite):
                  self.game.spritesheet_plat.get_image(16,80,8,8),
                  self.game.spritesheet_plat.get_image(24,80,8,8),
                  self.game.spritesheet_plat.get_image(32,80,8,8)]
-                 
+
         self.image = images[img]
         self.rect = self.image.get_rect()
         self.rect.x = x
