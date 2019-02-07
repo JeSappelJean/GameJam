@@ -36,6 +36,7 @@ class Game:
         self.background = pg.sprite.Group()
         self.lave = pg.sprite.Group()
         self.level_end = pg.sprite.Group()
+        self.ressorts = pg.sprite.Group()
         print(string.printable)
         self.run()
 
@@ -65,6 +66,10 @@ class Game:
         nbCollideLeft = 0
         nbCollideRight = 0
         end_level = pg.sprite.spritecollide(self.player, self.level_end, False)
+        hit_ressors = pg.sprite.spritecollide(self.player, self.ressorts, False)
+        if hit_ressors:
+            self.player.vel.y -= 8
+
         if end_level :
             self.level += 1
             self.playing = False
@@ -381,6 +386,8 @@ class Game:
                     Background(self, x, y, 42)
                 if sprite == '~':
                     LevelEnd(self,x,y)
+                if sprite == '\'':
+                    Ressort(self,x,y,0)
 
                 nume_case += 1
             num_ligne += 1
