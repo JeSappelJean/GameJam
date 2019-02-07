@@ -379,6 +379,7 @@ class Game:
             num_ligne += 1
     def draw_start_screen(self):
         #pg.image.load(path.join(self.img_dir, "ecrantitre.png"))
+        pass
 
 
 g = Game()
