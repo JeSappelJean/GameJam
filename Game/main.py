@@ -90,7 +90,6 @@ class Game:
                 self.hightscore = self.score
                 with open(path.join(self.dir, HS_FILE), 'w') as f:
                     f.write(str(self.score))
-            self.score = 0
             self.time_elapsed = 0
             self.level = 0
             self.playing = False
@@ -474,17 +473,28 @@ class Game:
         self.screen.blit(images_button[3],(351,567))
 
         pg.display.flip()
-        self.wait_for_click()
-        pg.mixer.fadeout(500)
+        self.wait_for_click_start()
+        self.playing = True
+
 
     def draw_score_screen(self):
-        background = pg.image.load(path.join(self.img_dir, "ecrantitre.png"))
+        background = pg.image.load(path.join(self.img_dir, "ecranfinRIP.png"))
         self.screen.blit(background,(0,0))
-        self.draw_text("okokeaeazeaz : "+str(abs(round(self.player.vel.x, 1))), 22, WHITE, 50, 50)
+        self.draw_text(str(self.hightscore), 100, WHITE, 520, 250)
+        self.draw_text(str(self.score), 100, WHITE, 520, 450)
         pg.display.flip()
         self.wait_for_key()
 
-    def wait_for_click(self):
+    def draw_option_screen(self):
+        background = pg.image.load(path.join(self.img_dir, "ecranoption.png"))
+        self.screen.blit(background,(0,0))
+        pg.display.flip()
+        self.wait_for_click_option()
+        self.draw_start_screen()
+
+
+
+    def wait_for_click_start(self):
         waiting = True
         event = pg.event.poll()
         while waiting:
@@ -497,6 +507,12 @@ class Game:
                     pos = pg.mouse.get_pos()
                     if pos[0] > 127 and pos[1] > 180 and pos[0] < 427 and pos[1] < 312:
                         waiting = False
+                        pg.mixer.fadeout(500)
+                    if pos[0] > 351 and pos[1] > 396 and pos[0] < 641 and pos[1] < 505:
+                        self.draw_option_screen()
+                    if pos[0] > 127 and pos[1] > 180 and pos[0] < 427 and pos[1] < 312:
+                        waiting = False
+
 
     def wait_for_key(self):
         waiting = True
@@ -508,6 +524,20 @@ class Game:
                     self.running = False
                 if event.type == pg.KEYUP:
                     waiting =False
+
+    def wait_for_click_option(self):
+        waiting = True
+        event = pg.event.poll()
+        while waiting:
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.running = False
+                elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                    pos = pg.mouse.get_pos()
+                    if pos[0] > 16 and pos[1] > 66 and pos[0] < 131 and pos[1] < 117:
+                        waiting = False
 
 
 
