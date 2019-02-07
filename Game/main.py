@@ -344,7 +344,7 @@ class Game:
                     Background(self,x,y,39)
                 if sprite == '|':
                     Background(self,x,y,40)
-                if sprite == '[[]':
+                if sprite == '[':
                     Lave(self,x,y,0)
                 if sprite == '\\':
                     Lave(self,x,y,1)
@@ -354,6 +354,10 @@ class Game:
                     Lave(self,x,y,3)
                 if sprite == '_':
                     Lave(self,x,y,4)
+                if sprite == '*':
+                    Background(self, x ,y, 41)
+                if sprite == '}':
+                    Background(self, x, y, 42)
 
                 nume_case += 1
             num_ligne += 1
