@@ -361,7 +361,8 @@ class Ressort(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.ressorts
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        images = [self.game.spritesheet_plat.get_image(48,88,8,8)]
+        images = [self.game.spritesheet_plat.get_image(48,88,8,8),
+                  self.game.spritesheet_plat.get_image(56,88,8,8)]
 
         self.image = images[img]
         self.rect = self.image.get_rect()
