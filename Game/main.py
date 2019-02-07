@@ -10,6 +10,8 @@ class Game:
     def __init__(self):
         pg.init()
         #Audio
+        self.start = True
+        self.score = 0
         pg.mixer.init()
         self.level = 0
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -22,41 +24,65 @@ class Game:
         self.load_data()
 
 
+
     def load_data(self):
         self.dir = path.dirname(__file__)
         self.img_dir = path.join(self.dir, 'img')
         self.map_dir = path.join(self.img_dir, 'map')
+        self.sound_dir = path.join(self.dir, 'music')
+        self.jump_sound = pg.mixer.Sound(path.join(self.sound_dir, 'jump_sound.ogg'))
+
+        self.damage_sound = pg.mixer.Sound(path.join(self.sound_dir, 'damage_sound.ogg'))
+        self.start_screen_music = pg.mixer.Sound(path.join(self.sound_dir, 'start_screen_music.ogg'))
+        self.portal = pg.mixer.Sound(path.join(self.sound_dir, 'portal_sound.ogg'))
+        with open(path.join(self.dir, HS_FILE), 'w') as f:
+            try:
+                self.hightscore = int(f.read())
+            except:
+                self.hightscore = 0
         self.spritesheet_car = Spritesheet(path.join(self.img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(self.img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
         self.spritesheet_button = Spritesheet(path.join(self.img_dir, SPRITESHEET_BUTTON),SIZE_BUTTON)
 
     def new(self):
+
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.background = pg.sprite.Group()
         self.lave = pg.sprite.Group()
         self.level_end = pg.sprite.Group()
         self.ressorts = pg.sprite.Group()
-        print(string.printable)
         self.run()
 
     def run(self):
         #Boucle du jeu
         self.playing = True
+        print(self.start)
+        self.load_map()
+        self.draw_level()
+        if self.start == True :
+            self.start = False
+            pg.mixer.music.load(path.join(g.sound_dir, 'game_music.ogg'))
+            pg.mixer.music.play(loops=-1)
+
+        while self.playing:
+
+            time = self.clock.tick(FPS)
+            self.time_elapsed += 1
+            self.dash_time += 1
+
+            self.events()
+            self.update()
+            self.draw()
+        pg.mixer.fadeout(500)
+
+    def load_map(self):
         self.current_level = Niveau(path.join(self.map_dir,LEVEL_LIST[self.level]))
         self.player = Player(self, self.current_level.x_start, self.current_level.y_start)
         if self.current_level.grav == 1:
             self.player.gravity = True
         else :
             self.player.gravity = False
-        self.draw_level()
-        while self.playing:
-            time = self.clock.tick(FPS)
-            self.time_elapsed += 1
-            self.dash_time += 1
-            self.events()
-            self.update()
-            self.draw()
 
     def update(self):
         keys = pg.key.get_pressed()
@@ -72,11 +98,17 @@ class Game:
 
         if end_level :
             self.level += 1
+            self.score += 1
+            self.portal.play()
             self.playing = False
         #Dead
         dead = pg.sprite.spritecollide(self.player, self.lave, False)
         if dead:
-            self.playing = False
+            self.player.vel.x = 0
+            self.player.acc.x = 0
+            self.player.pos.x = self.current_level.x_start
+            self.player.pos.y = self.current_level.y_start
+            self.damage_sound.play()
 
         if self.player.vel.y != 0:
 
@@ -159,14 +191,28 @@ class Game:
                             self.player.jump_reverse(False)
 
         if self.player.rect.top > HEIGHT:
-            self.playing =False
+            self.player.vel.x = 0
+            self.player.acc.x = 0
+            self.player.pos.x = self.current_level.x_start
+            self.player.pos.y = self.current_level.y_start
+
 
         if keys[pg.K_DELETE]:
             self.level = 0
             self.time_elapsed = 0
+            if self.score > self.hightscore:
+                self.hightscore = self.score
+                with open(path.join(self.dir, HS_FILE), 'w') as f:
+                    f.write(str(self.score))
+            self.score = 0
             self.playing = False
         if keys[pg.K_r]:
-            self.playing = False
+            self.player.vel.x = 0
+            self.player.acc.x = 0
+            self.player.pos.x = self.current_level.x_start
+            self.player.pos.y = self.current_level.y_start
+
+
 
     def events(self):
         for event in pg.event.get():
@@ -183,6 +229,9 @@ class Game:
         self.all_sprites.draw(self.screen)
         self.draw_text("Speed : "+str(abs(round(self.player.vel.x, 1))), 22, WHITE, 50, 50)
         self.draw_text("Time : "+str(round(180 - self.time_elapsed/100,1)), 22, WHITE, 50, 100)
+        self.draw_text("Score : "+str(self.score), 22, WHITE, 50, 150)
+        self.draw_text("Hightscore : "+str(self.hightscore), 22, WHITE, 50, 200)
+
         self.screen.blit(self.player.image, self.player.rect)
         pg.display.flip()
 
@@ -392,6 +441,8 @@ class Game:
                 nume_case += 1
             num_ligne += 1
     def draw_start_screen(self):
+        pg.mixer.music.load(path.join(g.sound_dir, 'start_screen_music.ogg'))
+        pg.mixer.music.play(loops=-1)
         background = pg.image.load(path.join(self.img_dir, "ecrantitre.png"))
         self.screen.blit(background,(0,0))
 
@@ -407,6 +458,8 @@ class Game:
         print(images_button[0].get_rect())
         pg.display.flip()
         self.wait_for_click()
+        pg.mixer.fadeout(500)
+
 
     def wait_for_click(self):
         waiting = True
@@ -426,9 +479,9 @@ class Game:
 
 
 g = Game()
+
+
 g.draw_start_screen()
 while g.running:
-
     g.new()
-
 pg.quit()
