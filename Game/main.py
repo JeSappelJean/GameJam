@@ -26,12 +26,7 @@ class Game:
         map_dir = path.join(img_dir, 'map')
         self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-<<<<<<< HEAD
-        self.level1 = Niveau(path.join(map_dir,"test.txt"))
-
-=======
         self.level1 = Niveau(path.join(map_dir,"level13.txt"))
->>>>>>> ee780a2dee443230edd0305f98670f29f20d3d59
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
@@ -361,6 +356,8 @@ class Game:
                     Lave(self,x,y,4)
                 if sprite == '*':
                     Background(self, x ,y, 41)
+                if sprite == '}':
+                    Background(self, x, y, 42)
 
                 nume_case += 1
             num_ligne += 1

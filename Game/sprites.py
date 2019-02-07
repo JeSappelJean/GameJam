@@ -330,7 +330,8 @@ class Background(pg.sprite.Sprite):
                   self.game.spritesheet_plat.get_image(24,88,8,8),
                   pg.transform.flip(self.game.spritesheet_plat.get_image(24,88,8,8), True, False),
                   self.game.spritesheet_plat.get_image(32,88,8,8),
-                  pg.transform.flip(self.game.spritesheet_plat.get_image(40,80,8,8), True, False)]
+                  pg.transform.flip(self.game.spritesheet_plat.get_image(40,80,8,8), True, False),
+                  self.game.spritesheet_plat.get_image(32,64,8,8)]
 
         self.image = images[img]
         self.rect = self.image.get_rect()
