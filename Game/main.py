@@ -177,7 +177,7 @@ class Game:
     def draw(self):
         self.all_sprites.draw(self.screen)
         self.draw_text("Speed : "+str(abs(round(self.player.vel.x, 1))), 22, WHITE, 50, 50)
-        self.draw_text("Time : "+str(round(self.time_elapsed/100,1)), 22, WHITE, 50, 100)
+        self.draw_text("Time : "+str(180 - round(self.time_elapsed/100,1)), 22, WHITE, 50, 100)
         self.screen.blit(self.player.image, self.player.rect)
         pg.display.flip()
 
