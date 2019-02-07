@@ -5,9 +5,11 @@ HEIGHT = 768
 FPS = 60
 SPRITESHEET_CAR = "spritesheet_player.png"
 SPRITESHEET_PLAT = "cavesofgallet_tiles.png"
+SPRITESHEET_BUTTON = ""
 FONT_NAME = 'arial'
 SIZE_CAR = 3
 SIZE_PLAT = 4
+SIZE_BUTTON = 2
 
 #CONST Joueur
 PLAYER_ACC = 1

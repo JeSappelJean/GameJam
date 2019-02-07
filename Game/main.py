@@ -27,6 +27,7 @@ class Game:
         self.map_dir = path.join(self.img_dir, 'map')
         self.spritesheet_car = Spritesheet(path.join(self.img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(self.img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
+        #self.spritesheet_button = Spritesheet(path.join(self.img_dir, SPRITESHEET_BUTTON),SIZE_BUTTON)
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
@@ -381,9 +382,9 @@ class Game:
 
 
 g = Game()
-
+g.draw_start_screen()
 while g.running:
-    g.draw_start_screen()
+
     g.new()
 
 pg.quit()
