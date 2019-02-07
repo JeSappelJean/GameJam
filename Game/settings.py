@@ -24,3 +24,7 @@ RED = (255, 0 ,0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 BG = (33, 38, 63)
+
+#Level
+
+LEVEL_LIST = ["chateau1.txt", "chateau2.txt", "chateau3.txt", "chateau4.txt", "chateau5.txt"]

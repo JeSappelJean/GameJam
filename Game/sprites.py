@@ -17,14 +17,16 @@ class Spritesheet:
 
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x ,y):
+        self.spawn_x = x
+        self.spawn_y = y
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = self.game.spritesheet_car.get_image(9, 12, 15, 20)
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.center = (x, y)
-        self.pos = vec(x ,  y)
+        self.rect.center = (self.spawn_x, self.spawn_y)
+        self.pos = vec(self.spawn_x ,  self.spawn_y)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.jumpCount = 0
@@ -354,6 +356,17 @@ class Lave(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+class LevelEnd(pg.sprite.Sprite):
+    def __init__(self, game, x , y):
+        self.groups = game.all_sprites, game.level_end
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        images = [self.game.spritesheet_plat.get_image(32,64,8,8)]
+
+        self.image = images[0]
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
 
 class Niveau:
     def __init__(self, filename):

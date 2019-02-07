@@ -11,6 +11,7 @@ class Game:
         pg.init()
         #Audio
         pg.mixer.init()
+        self.level = 0
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
@@ -22,25 +23,26 @@ class Game:
 
     def load_data(self):
         self.dir = path.dirname(__file__)
-        img_dir = path.join(self.dir, 'img')
-        map_dir = path.join(img_dir, 'map')
-        self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
-        self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-        self.level1 = Niveau(path.join(map_dir,"level14.txt"))
+        self.img_dir = path.join(self.dir, 'img')
+        self.map_dir = path.join(self.img_dir, 'map')
+        self.spritesheet_car = Spritesheet(path.join(self.img_dir, SPRITESHEET_CAR),SIZE_CAR)
+        self.spritesheet_plat = Spritesheet(path.join(self.img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.background = pg.sprite.Group()
         self.lave = pg.sprite.Group()
-        self.player = Player(self, self.level1.x_start, self.level1.y_start)
-        self.draw_level()
+        self.level_end = pg.sprite.Group()
         print(string.printable)
         self.run()
 
     def run(self):
         #Boucle du jeu
         self.playing = True
+        self.current_level = Niveau(path.join(self.map_dir,LEVEL_LIST[self.level]))
+        self.player = Player(self, self.current_level.x_start, self.current_level.y_start)
+        self.draw_level()
         while self.playing:
             time =self.clock.tick(FPS)
             self.time_elapsed += 1
@@ -49,13 +51,16 @@ class Game:
             self.draw()
 
     def update(self):
-
+        keys = pg.key.get_pressed()
         self.all_sprites.update()
         nbCollideBottom = 0
         nbCollideTop = 0
         nbCollideLeft = 0
         nbCollideRight = 0
-
+        end_level = pg.sprite.spritecollide(self.player, self.level_end, False)
+        if end_level :
+            self.level += 1
+            self.playing = False
         #Dead
         dead = pg.sprite.spritecollide(self.player, self.lave, False)
         if dead:
@@ -131,7 +136,6 @@ class Game:
                     self.player.acc.x = 0
                     self.player.pos.x = hits[ind].rect.left - self.player.image.get_width()/2
                     self.player.slidingL = True
-                    keys = pg.key.get_pressed()
                     if keys[pg.K_SPACE] :
                         self.player.jump_reverse(True)
                 if self.player.vel.x < 0 and nbCollideLeft > 0:
@@ -139,13 +143,17 @@ class Game:
                     self.player.acc.x = 0
                     self.player.pos.x = hits[ind].rect.right + self.player.image.get_width()/2
                     self.player.slidingR = True
-                    keys = pg.key.get_pressed()
                     if keys[pg.K_SPACE]:
                             self.player.jump_reverse(False)
 
         if self.player.rect.top > HEIGHT:
             self.playing =False
 
+        if keys[pg.K_DELETE]:
+            self.level = 0
+            self.playing = False
+        if keys[pg.K_r]:
+            self.playing = False
 
     def events(self):
         for event in pg.event.get():
@@ -173,7 +181,7 @@ class Game:
 
     def draw_level(self) :
         num_ligne = 0
-        for line in self.level1.struct:
+        for line in self.current_level.struct:
             nume_case = 0
             for sprite in line :
                 x = nume_case * 8*SIZE_PLAT
@@ -362,6 +370,8 @@ class Game:
                     Background(self, x ,y, 41)
                 if sprite == '}':
                     Background(self, x, y, 42)
+                if sprite == '~':
+                    LevelEnd(self,x,y)
 
                 nume_case += 1
             num_ligne += 1
