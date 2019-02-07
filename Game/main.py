@@ -514,7 +514,6 @@ class Game:
 
 g = Game()
 
-
 g.draw_start_screen()
 while g.running:
     g.new()
