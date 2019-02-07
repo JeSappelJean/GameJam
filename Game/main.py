@@ -44,8 +44,9 @@ class Game:
         self.player = Player(self, self.current_level.x_start, self.current_level.y_start)
         self.draw_level()
         while self.playing:
-            time =self.clock.tick(FPS)
+            time = self.clock.tick(FPS)
             self.time_elapsed += 1
+
             self.events()
             self.update()
             self.draw()
@@ -375,10 +376,14 @@ class Game:
 
                 nume_case += 1
             num_ligne += 1
+    def draw_start_screen(self):
+        pass
+
 
 g = Game()
 
 while g.running:
+    g.draw_start_screen()
     g.new()
 
 pg.quit()
