@@ -16,6 +16,7 @@ class Game:
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         self.running = True
+        self.dash_time = 0
         self.time_elapsed = 0
         self.font_name = pg.font.match_font(FONT_NAME)
         self.load_data()
@@ -27,7 +28,7 @@ class Game:
         self.map_dir = path.join(self.img_dir, 'map')
         self.spritesheet_car = Spritesheet(path.join(self.img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(self.img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-        #self.spritesheet_button = Spritesheet(path.join(self.img_dir, SPRITESHEET_BUTTON),SIZE_BUTTON)
+        self.spritesheet_button = Spritesheet(path.join(self.img_dir, SPRITESHEET_BUTTON),SIZE_BUTTON)
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
@@ -43,11 +44,15 @@ class Game:
         self.playing = True
         self.current_level = Niveau(path.join(self.map_dir,LEVEL_LIST[self.level]))
         self.player = Player(self, self.current_level.x_start, self.current_level.y_start)
+        if self.current_level.grav == 1:
+            self.player.gravity = True
+        else :
+            self.player.gravity = False
         self.draw_level()
         while self.playing:
             time = self.clock.tick(FPS)
             self.time_elapsed += 1
-
+            self.dash_time += 1
             self.events()
             self.update()
             self.draw()
@@ -153,6 +158,7 @@ class Game:
 
         if keys[pg.K_DELETE]:
             self.level = 0
+            self.time_elapsed = 0
             self.playing = False
         if keys[pg.K_r]:
             self.playing = False
@@ -171,6 +177,7 @@ class Game:
     def draw(self):
         self.all_sprites.draw(self.screen)
         self.draw_text("Speed : "+str(abs(round(self.player.vel.x, 1))), 22, WHITE, 50, 50)
+        self.draw_text("Time : "+str(round(self.time_elapsed/100,1)), 22, WHITE, 50, 100)
         self.screen.blit(self.player.image, self.player.rect)
         pg.display.flip()
 
@@ -378,8 +385,37 @@ class Game:
                 nume_case += 1
             num_ligne += 1
     def draw_start_screen(self):
-        #pg.image.load(path.join(self.img_dir, "ecrantitre.png"))
-        pass
+        background = pg.image.load(path.join(self.img_dir, "ecrantitre.png"))
+        self.screen.blit(background,(0,0))
+
+        images_button = [self.spritesheet_button.get_image(0,0,290,138),
+                  self.spritesheet_button.get_image(0,139,300,132),
+                  self.spritesheet_button.get_image(0,385,290,109),
+                  self.spritesheet_button.get_image(0,272,287,112)]
+        self.screen.blit(images_button[0],(127,180))
+        self.screen.blit(images_button[1],(572,180))
+        self.screen.blit(images_button[2],(351,396))
+        self.screen.blit(images_button[3],(351,567))
+
+        print(images_button[0].get_rect())
+        pg.display.flip()
+        self.wait_for_click()
+
+    def wait_for_click(self):
+        waiting = True
+        event = pg.event.poll()
+        while waiting:
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.running = False
+                elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                    pos = pg.mouse.get_pos()
+                    if pos[0] > 127 and pos[1] > 180 and pos[0] < 427 and pos[1] < 312:
+                        waiting = False
+
+
 
 
 g = Game()

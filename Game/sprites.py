@@ -35,7 +35,7 @@ class Player(pg.sprite.Sprite):
         self.dashing = False
         self.slidingR = False
         self.slidingL = False
-        self.gravity = False
+        self.gravity = True
         self.current_frame = 0
         self.last_update = 0
         self.load_images()
@@ -106,7 +106,7 @@ class Player(pg.sprite.Sprite):
         self.rect.midbottom = self.pos
 
     def update(self):
-        if self.gravity == True:
+        if self.gravity == False:
             self.acc = vec(0,0)
             keys = pg.key.get_pressed()
             if keys[pg.K_LEFT]:
@@ -146,14 +146,14 @@ class Player(pg.sprite.Sprite):
                     self.acc.x -= PLAYER_ACC
             if keys[pg.K_RIGHT]:
                 self.acc.x += PLAYER_ACC
-            if keys[pg.K_LEFT] and keys[pg.K_q] and self.game.time_elapsed > PLAYER_DASH_TIME:
+            if keys[pg.K_LEFT] and keys[pg.K_q] and self.game.dash_time > PLAYER_DASH_TIME:
                 self.acc.x -= PLAYER_ACC*10
                 self.dashing = True
-                self.game.time_elapsed = 0
-            if keys[pg.K_RIGHT] and keys[pg.K_q] and self.game.time_elapsed > PLAYER_DASH_TIME:
+                self.game.dash_time = 0
+            if keys[pg.K_RIGHT] and keys[pg.K_q] and self.game.dash_time > PLAYER_DASH_TIME:
                 self.acc.x += PLAYER_ACC*10
                 self.dashing = True
-                self.game.time_elapsed = 0
+                self.game.dash_time = 0
 
 
             #appliquer la friction
@@ -387,6 +387,7 @@ class Niveau:
         self.struct = 0
         self.x_start = 0
         self.y_start = 0
+        self.grav = 1
         self.generate()
 
     def generate(self):
@@ -400,7 +401,8 @@ class Niveau:
                 structure_niveau.append(ligne_niveau)
             self.struct = structure_niveau
 
-            pos = ''.join(structure_niveau[-1]).split(',')
-            if len(pos) > 1:
-                self.x_start = int(pos[1])
-                self.y_start = int(pos[2])
+            var_level = ''.join(structure_niveau[-1]).split(',')
+            if len(var_level) > 1:
+                self.x_start = int(var_level[1])
+                self.y_start = int(var_level[2])
+                self.grav = int(var_level[3])
