@@ -26,7 +26,7 @@ class Game:
         map_dir = path.join(img_dir, 'map')
         self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-        self.level1 = Niveau(path.join(map_dir,"level13.txt"))
+        self.level1 = Niveau(path.join(map_dir,"level14.txt"))
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
