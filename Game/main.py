@@ -26,7 +26,7 @@ class Game:
         map_dir = path.join(img_dir, 'map')
         self.spritesheet_car = Spritesheet(path.join(img_dir, SPRITESHEET_CAR),SIZE_CAR)
         self.spritesheet_plat = Spritesheet(path.join(img_dir, SPRITESHEET_PLAT),SIZE_PLAT)
-        self.level1 = Niveau(path.join(map_dir,"level13.txt"))
+        self.level1 = Niveau(path.join(map_dir,"JD3.txt"))
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
@@ -64,6 +64,10 @@ class Game:
         if self.player.vel.y != 0:
 
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
+            if self.player.rect.top < 0 :
+                self.player.vel.y = 0
+                self.player.pos.y = self.player.image.get_height()
+
             if hits:
                 lowest = hits[0]
                 for hit in hits:
