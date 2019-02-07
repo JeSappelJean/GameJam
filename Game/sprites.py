@@ -87,6 +87,7 @@ class Player(pg.sprite.Sprite):
 
         if self.jumping and self.jumpCount != 0:
             self.vel.y = -PLAYER_JUMP
+            self.game.jump_sound.play()
             self.jumpCount -= 1
 
 
