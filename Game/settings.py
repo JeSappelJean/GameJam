@@ -1,5 +1,5 @@
 #CONST Jeu
-TITLE = "Game"
+TITLE = "Run For Your Life"
 WIDTH = 1024
 HEIGHT = 768
 FPS = 60

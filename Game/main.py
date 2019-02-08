@@ -3,6 +3,7 @@ import random
 from settings import *
 from sprites import *
 from os import path
+from random import *
 import string
 
 
@@ -11,6 +12,7 @@ class Game:
         pg.init()
         #Audio
         self.start = True
+        self.freeplay = False
         self.score = 0
         pg.mixer.init()
         self.level = 0
@@ -77,7 +79,11 @@ class Game:
         pg.mixer.fadeout(500)
 
     def load_map(self):
-        self.current_level = Niveau(path.join(self.map_dir,LEVEL_LIST[self.level]))
+        if self.freeplay == True :
+            random_level = randint(0, len(LEVEL_LIST)-1)
+            self.current_level = Niveau(path.join(self.map_dir,LEVEL_LIST[random_level]))
+        else:
+            self.current_level = Niveau(path.join(self.map_dir,LEVEL_LIST[self.level]))
         self.player = Player(self, self.current_level.x_start, self.current_level.y_start)
         if self.current_level.grav == 1:
             self.player.gravity = True
@@ -85,14 +91,15 @@ class Game:
             self.player.gravity = False
 
     def update(self):
-        if self.time_elapsed/100 > 180:
-            if self.score > self.hightscore:
-                self.hightscore = self.score
-                with open(path.join(self.dir, HS_FILE), 'w') as f:
-                    f.write(str(self.score))
-            self.time_elapsed = 0
-            self.level = 0
-            self.playing = False
+        if self.freeplay == False :
+            if self.time_elapsed/100 > 180:
+                if self.score > self.hightscore:
+                    self.hightscore = self.score
+                    with open(path.join(self.dir, HS_FILE), 'w') as f:
+                        f.write(str(self.score))
+                self.time_elapsed = 0
+                self.level = 0
+                self.playing = False
 
         keys = pg.key.get_pressed()
         self.all_sprites.update()
@@ -109,7 +116,7 @@ class Game:
             self.level += 1
             if self.level > len(LEVEL_LIST) -1 :
                 self.level = 0
-            self.score += 1
+            self.score += 10
             self.portal.play()
             for plat in self.all_sprites:
                 plat.kill()
@@ -217,11 +224,8 @@ class Game:
         if keys[pg.K_DELETE]:
             self.level = 0
             self.time_elapsed = 0
-            if self.score > self.hightscore:
-                self.hightscore = self.score
-                with open(path.join(self.dir, HS_FILE), 'w') as f:
-                    f.write(str(self.score))
-            self.score = 0
+
+
             self.playing = False
         if keys[pg.K_r]:
             self.player.vel.x = 0
@@ -244,10 +248,13 @@ class Game:
 
     def draw(self):
         self.all_sprites.draw(self.screen)
-        self.draw_text("Speed : "+str(abs(round(self.player.vel.x, 1))), 22, WHITE, 50, 50)
-        self.draw_text("Time : "+str(round(180 - self.time_elapsed/100,1)), 22, WHITE, 50, 100)
-        self.draw_text("Score : "+str(self.score), 22, WHITE, 50, 150)
-        self.draw_text("Hightscore : "+str(self.hightscore), 22, WHITE, 50, 200)
+        if self.freeplay == False:
+            self.draw_text("Time : "+str(round(180 - self.time_elapsed/100,1))+'s', 30, WHITE, 90, 20)
+            self.draw_text("Score : "+str(self.score), 30, WHITE, 240, 20)
+            self.draw_text("Hightscore : "+str(self.hightscore), 30, WHITE, 400, 20)
+        else :
+            self.draw_text("Speed X : "+str(round(abs(self.player.vel.x),1)), 30, WHITE, 90, 20)
+            self.draw_text("Speed Y : "+str(round(abs(self.player.vel.y),1)), 30, WHITE, 270, 20)
 
         self.screen.blit(self.player.image, self.player.rect)
         pg.display.flip()
@@ -479,14 +486,34 @@ class Game:
 
     def draw_score_screen(self):
         background = pg.image.load(path.join(self.img_dir, "ecranfinRIP.png"))
-        self.screen.blit(background,(0,0))
-        self.draw_text(str(self.hightscore), 100, WHITE, 520, 250)
-        self.draw_text(str(self.score), 100, WHITE, 520, 450)
+        backgroundGG = pg.image.load(path.join(self.img_dir, "ecranfinYa.png"))
+        if self.score > self.hightscore :
+            if self.score > self.hightscore:
+                self.hightscore = self.score
+                with open(path.join(self.dir, HS_FILE), 'w') as f:
+                    f.write(str(self.score))
+
+            self.screen.blit(backgroundGG,(0,0))
+            self.draw_text(str(self.score), 100, WHITE, 520, 275)
+        else:
+            self.screen.blit(background,(0,0))
+            self.draw_text(str(self.hightscore), 100, WHITE, 520, 250)
+            self.draw_text(str(self.score), 100, WHITE, 520, 450)
+        self.score = 0
+
+
         pg.display.flip()
         self.wait_for_key()
 
     def draw_option_screen(self):
         background = pg.image.load(path.join(self.img_dir, "ecranoption.png"))
+        self.screen.blit(background,(0,0))
+        pg.display.flip()
+        self.wait_for_click_option()
+        self.draw_start_screen()
+
+    def draw_credit_screen(self):
+        background = pg.image.load(path.join(self.img_dir, "ecrancredit.png"))
         self.screen.blit(background,(0,0))
         pg.display.flip()
         self.wait_for_click_option()
@@ -510,8 +537,13 @@ class Game:
                         pg.mixer.fadeout(500)
                     if pos[0] > 351 and pos[1] > 396 and pos[0] < 641 and pos[1] < 505:
                         self.draw_option_screen()
-                    if pos[0] > 127 and pos[1] > 180 and pos[0] < 427 and pos[1] < 312:
+                    if pos[0] > 351 and pos[1] > 567 and pos[0] < 638 and pos[1] < 679:
+                        self.draw_credit_screen()
+                    if pos[0] > 572 and pos[1] > 180 and pos[0] < 872 and pos[1] < 312:
+                        self.freeplay = True
                         waiting = False
+                        pg.mixer.fadeout(500)
+
 
 
     def wait_for_key(self):
@@ -543,10 +575,14 @@ class Game:
 
 
 g = Game()
-
+BD_story = pg.image.load(path.join(g.img_dir, "striprun.png"))
+g.screen.blit(BD_story,(0,0))
+pg.display.flip()
+pg.time.delay(5000)
 g.draw_start_screen()
 while g.running:
     g.new()
-    g.draw_score_screen()
+    if g.freeplay == False:
+        g.draw_score_screen()
 
 pg.quit()
