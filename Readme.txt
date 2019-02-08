@@ -1,3 +1,5 @@
+Pour lancer le jeu lancer "main.py" !
+
 Run For Your Life est un platformer axé speed run développé par OCTOGONE GAMES©.
 
 Histoire :
